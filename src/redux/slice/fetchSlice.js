@@ -37,4 +37,5 @@ const getDataSlice=createSlice({
 })
 
 
+
 export default getDataSlice.reducer;

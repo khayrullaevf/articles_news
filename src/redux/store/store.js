@@ -2,10 +2,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import fetchDataReducer from "../slice/fetchSlice";
+import fetchSingleDataReducer  from "../slice/fetchSingleDataSlice";
 
 
 const rootReducer={
-    getData:fetchDataReducer
+    getData:fetchDataReducer,
+    getSingleData:fetchSingleDataReducer
 }
 
 
