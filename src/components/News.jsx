@@ -3,22 +3,29 @@ import { fetchData } from "../redux/slice/fetchSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
+
+// ... (imports)
 
 const News = () => {
   const dispatch = useDispatch();
-
-  const articles = useSelector((state) => state.getData);
+  const articlesState = useSelector((state) => state.getData);
+  const loading = articlesState.loading;
 
   useEffect(() => {
     dispatch(fetchData("https://api.spaceflightnewsapi.net/v3/articles"));
-  });
+  }, [dispatch]);
+
+  if (loading) {
+    return <Loading/> // Render a loading message or spinner while fetching data
+  }
 
   return (
     <div className="container ">
       <h1 className="text-center mt-5">News</h1>
       <div className="articles ">
         <div className="row ">
-          {articles?.data.map((article, index) => (
+          {articlesState.data.map((article, index) => (
             <div
               className="col-sm-12 col-md-6 col-lg-4 col-xl-3  "
               style={{ marginTop: "50px", marginBottom: "40px" }}
@@ -41,6 +48,11 @@ const News = () => {
                     <p className="card-text">
                       {article.summary.slice(0, 100)}...
                     </p>
+                    <p className="card-text">
+                      <small className="text-muted">
+                        Published on: {new Date(article.publishedAt).toLocaleDateString()}
+                      </small>
+                    </p>
                   </div>
                 </div>
               </Link>
@@ -51,5 +63,7 @@ const News = () => {
     </div>
   );
 };
+
+
 
 export default News;
